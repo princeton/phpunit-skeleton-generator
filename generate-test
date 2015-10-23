@@ -1,0 +1,12 @@
+#!/usr/bin/env php
+<?php
+$base = preg_replace('/\//', '\\', $argv[1]);
+$file = 'library/' . preg_replace('/\\\/', '/', $base) . '.php';
+$class = 'Princeton\\' . $base;
+$classtest = preg_replace('/^Timeline/', 'Test', $base) . 'Test';
+$filetest = preg_replace('|^library/Timeline/|', 'tests/', preg_replace('/\.php$/', 'Test.php', $file));
+$dirtest = dirname($filetest);
+if (!file_exists($dirtest)) {
+    mkdir($dirtest, 0755, true);
+}
+system("vendor/bin/phpunit-skelgen generate-test --bootstrap=config/bootstrap.php '$class' $file '$classtest' $filetest");

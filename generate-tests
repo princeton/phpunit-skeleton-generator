@@ -1,0 +1,17 @@
+#!/usr/bin/env php
+<?php
+$list = explode("\n", trim(`find library -type f -name '*.php'`));
+foreach ($list as $file) {
+    $base = preg_replace('/^library./', '', preg_replace('/\.php$/', '', preg_replace('|/|', '\\', $file)));
+    $class = 'Princeton\\' . $base;
+    $classtest = preg_replace('/^Timeline/', 'Test', $base) . 'Test';
+    $filetest = preg_replace('|^library/Timeline/|', 'tests/', preg_replace('/\.php$/', 'Test.php', $file));
+    
+    if (!file_exists($filetest)) {
+        $dirtest = dirname($filetest);
+        if (!file_exists($dirtest)) {
+            mkdir($dirtest, 0755, true);
+        }
+        system("vendor/bin/phpunit-skelgen generate-test --bootstrap=config/bootstrap.php '$class' $file '$classtest' $filetest");
+    }
+}

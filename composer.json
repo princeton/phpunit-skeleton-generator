@@ -30,7 +30,9 @@
         ]
     },
     "bin": [
-        "phpunit-skelgen"
+        "phpunit-skelgen",
+        "generate-test",
+        "generate-tests"
     ],
     "extra": {
         "branch-alias": {
