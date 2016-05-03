@@ -1,5 +1,9 @@
 #!/usr/bin/env php
 <?php
+if (empty($argv[1])) {
+    echo "usage: $argv[0] Timeline/Package/Classname\n";
+    exit(1);
+}
 $base = preg_replace('/\//', '\\', $argv[1]);
 $file = 'library/' . preg_replace('/\\\/', '/', $base) . '.php';
 $class = 'Princeton\\' . $base;
