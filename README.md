@@ -2,6 +2,10 @@
 
 `phpunit-skelgen` is a tool that can generate skeleton test classes from production code classes and vice versa.
 
+Note: The underlying project from which this project was originally forked
+(https://github.com/sebastianbergmann/phpunit-skeleton-generator)
+has been marked as "abandoned" as of April 18, 2016.
+
 ## Installation
 
 ### PHP Archive (PHAR)
