@@ -15,7 +15,7 @@ class {testClassName} extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        // $this->object = $this->getMockBuilder('{namespaceName}\{className}')->setConstructorArgs([])->setMethods([])->getMock();
+        // $this->object = $this->getMockBuilder('{namespaceName}\{className}')->setConstructorArgs([])->setMethods(null)->getMock();
     }
 
     protected function tearDown()
