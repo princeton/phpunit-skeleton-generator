@@ -1,6 +1,7 @@
 <?php
 {namespace}
 use Test\TestCase;
+use {namespaceName}\{className};
 
 /**
  * {className} test case.
@@ -15,11 +16,10 @@ class {testClassName} extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        // $this->object = $this->getMockBuilder('{namespaceName}\{className}')->setConstructorArgs([])->setMethods(null)->getMock();
-    }
 
-    protected function tearDown()
-    {
-        parent::tearDown();
+        //$mock = $this->getMockBuilder({className}::class)
+            //->setConstructorArgs([])->setMethods(null)->getMock();
+
+        //$this->object = $mock;
     }
 {methods}}
