@@ -1,17 +1,41 @@
 #!/usr/bin/env php
 <?php
-$list = explode("\n", trim(`find library -type f -name '*.php'`));
+/*
+ * Set default config - override these in local config file as needed, for example, using:
+ *     $cfg['nsBase'] = 'MyProject';
+ * then call this script with name of config file as first argument.
+ */
+$cfg = [
+   'autoload' => 'vendor/autoload.php',
+   'testDir' => 'tests',
+   'libDir' => 'library',
+   'nsPrefix' => '', // example: 'MyInstitution\\'
+   'nsBase' => '', // example: 'MyProject'
+];
+
+$defaultConfig = 'vendor/bin/phpunit-skelgen-cfg.php';
+
+// Load local config, if provided.
+if (!empty($argv[1]) && file_exists($argv[1])) {
+    require_once $argv[1];
+} elseif (file_exists($defaultConfig)) {
+    require_once $defaultConfig;
+}
+
+$list = explode("\n", trim(`find $cfg[libDir]/$cfg[nsBase] -type f -name '*.php'`));
+
 foreach ($list as $file) {
-    $base = preg_replace('/^library./', '', preg_replace('/\.php$/', '', preg_replace('|/|', '\\', $file)));
-    $class = 'Princeton\\' . $base;
-    $classtest = preg_replace('/^Timeline/', 'Test', $base) . 'Test';
-    $filetest = preg_replace('|^library/Timeline/|', 'tests/', preg_replace('/\.php$/', 'Test.php', $file));
-    
+    $base = preg_replace("#^$cfg[libDir]\\\\#", '', preg_replace('#\.php$#', '', preg_replace('#/#', '\\', $file)));
+    $class = "$cfg[nsPrefix]$base";
+    $classtest = preg_replace("#^$cfg[nsBase]#", 'Test', $base) . 'Test';
+    $filetest = preg_replace("#^$cfg[libDir]/$cfg[nsBase]/#", "$cfg[testDir]/", preg_replace('#\.php$#', 'Test.php', $file));
+
     if (!file_exists($filetest)) {
         $dirtest = dirname($filetest);
         if (!file_exists($dirtest)) {
             mkdir($dirtest, 0755, true);
         }
-        system("vendor/bin/phpunit-skelgen generate-test --bootstrap=config/bootstrap.php '$class' $file '$classtest' $filetest");
+        system("vendor/bin/phpunit-skelgen generate-test --bootstrap=$cfg[autoload] '$class' $file '$classtest' $filetest");
     }
 }
+
