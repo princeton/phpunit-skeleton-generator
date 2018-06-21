@@ -1,7 +1,7 @@
 <?php
 {namespace}
-use Test\TestCase;
 use {namespaceName}\{className};
+use Test\TestCase;
 
 /**
  * {className} test case.
@@ -11,15 +11,11 @@ class {testClassName} extends TestCase
     /**
      * @var {className}
      */
-    protected $object;
+    protected $subject;
 
     protected function setUp()
     {
         parent::setUp();
-
-        //$mock = $this->getMockBuilder({className}::class)
-            //->setConstructorArgs([])->setMethods(null)->getMock();
-
-        //$this->object = $mock;
+        $this->subject = new {className}();
     }
 {methods}}
